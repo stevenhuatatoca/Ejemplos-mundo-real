@@ -1,0 +1,49 @@
+class Habitacion:
+    def __init__(self, numero, tipo, precio):
+        self.numero = numero
+        self.tipo = tipo
+        self.precio = precio
+        self.ocupada = False
+
+    def reservar(self):
+        if not self.ocupada:
+            self.ocupada = True
+            return True
+        else:
+            return False
+
+    def liberar(self):
+        self.ocupada = False
+
+class Cliente:
+    def __init__(self, nombre, dni):
+        self.nombre = nombre
+        self.dni = dni
+        self.reservas = []
+
+    def hacer_reserva(self, habitacion):
+        if habitacion.reservar():
+            self.reservas.append(habitacion)
+            print(f"Reserva exitosa para {self.nombre} en la habitación {habitacion.numero}")
+        else:
+            print(f"La habitación {habitacion.numero} ya está ocupada")
+
+    def cancelar_reserva(self, habitacion):
+        if habitacion in self.reservas:
+            habitacion.liberar()
+            self.reservas.remove(habitacion)
+            print(f"Reserva cancelada para {self.nombre} en la habitación {habitacion.numero}")
+        else:
+            print(f"No hay reserva para cancelar en la habitación {habitacion.numero}")
+
+# Ejemplo de uso
+habitacion1 = Habitacion(101, 'Doble', 150)
+habitacion2 = Habitacion(102, 'Suite', 250)
+
+cliente1 = Cliente('Juan Pérez', '12345678A')
+cliente2 = Cliente('Ana García', '87654321B')
+
+cliente1.hacer_reserva(habitacion1)
+cliente2.hacer_reserva(habitacion1)
+cliente1.cancelar_reserva(habitacion1)
+cliente2.hacer_reserva(habitacion1)
